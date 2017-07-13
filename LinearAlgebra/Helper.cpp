@@ -1,29 +1,43 @@
 #include "stdafx.h"
 #include "Helper.h"
+#include "Exceptions.h"
 
 matrix_size get_matrix_size_from_string(std::string input)
 {
-	std::stringstream ss(input);
-
-	double d;
-	int columns = 0;
-	int rows = 1;
-
-	while (ss >> d)
+	string item;
+	int rows = 0, cols = 0, final_cols = 0;
+	stringstream thing(input);
+	for (string line; getline(thing, line, ';'); )
 	{
-		columns++;
-		if (ss.peek() == ';')
+		istringstream in(line);
+		cols = 0;
+		while (getline(in, item, ','))
 		{
-			rows++;
+			cols++;
 		}
-		if (ss.peek() == ',')
-			ss.ignore();
+		if (rows == 0)
+		{
+			final_cols = cols;
+		}
+		else if (cols != final_cols)
+		{
+			MatrixFormatException _ex_MFE;
+			try
+			{
+				throw _ex_MFE;
+			}
+			catch (exception& e)
+			{
+				cout << e.what() << "\n";
+			}
+		}
+		rows++;
 	}
 
-	std::cout << rows << "," << columns << "\n";
+	std::cout << rows << "," << cols << "\n";
 
 	matrix_size instance_size;
 	instance_size.rows = rows;
-	instance_size.columns = columns;
+	instance_size.columns = cols;
 	return instance_size;
 }

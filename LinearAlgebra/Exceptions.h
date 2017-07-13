@@ -10,7 +10,15 @@ class DimensionMismatch : public exception
 {
 	virtual const char* what() const throw()
 	{
-		return "Dimension mismatch!";
+		return "ERROR: Dimension mismatch!";
+	}
+};
+
+class MatrixFormatException : public exception
+{
+	virtual const char* what() const throw()
+	{
+		return "ERROR: Matrix input is not properly formatted!";
 	}
 };
 

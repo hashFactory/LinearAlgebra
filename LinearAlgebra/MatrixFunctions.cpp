@@ -2,6 +2,7 @@
 #include "Matrix.h"
 #include "MatrixFunctions.h"
 #include "Helper.h"
+#include "Exceptions.h"
 #include <algorithm>
 
 using namespace std;
