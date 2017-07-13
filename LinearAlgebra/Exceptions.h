@@ -6,7 +6,7 @@
 #include <exception>
 
 using namespace std;
-static class DimensionMismatch : public exception
+class DimensionMismatch : public exception
 {
 	virtual const char* what() const throw()
 	{
