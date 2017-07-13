@@ -143,6 +143,33 @@ Matrix MatrixFunctions::transpose(Matrix a)
 	return result;
 }
 
+Matrix MatrixFunctions::concat_horizontal(Matrix a, Matrix b)
+{
+	if (a.rows != b.rows)
+	{
+		DimensionMismatch _ex_DM;
+		try
+		{
+			throw _ex_DM;
+		}
+		catch (exception& e)
+		{
+			cout << e.what() << "\n";
+		}
+	}
+
+	Matrix result(a.rows, a.columns + b.columns);
+	result.initialize();
+
+	for (int i = 0; i < a.rows; i++)
+	{
+		copy(a.data[i].begin(), a.data[i].end(), result.data[i].begin());
+		copy_backward(b.data[i].begin(), b.data[i].end(), result.data[i].end());
+	}
+
+	return result;
+}
+
 Matrix MatrixFunctions::swap_row(Matrix a, int first, int second)
 {
 	// Dwaps any 2 rows in the matrix

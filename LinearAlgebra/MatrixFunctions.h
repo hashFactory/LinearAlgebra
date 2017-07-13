@@ -14,6 +14,7 @@ public:
 	static Matrix rref(Matrix a);
 	static Matrix rref_with_steps(Matrix a);
 	static Matrix transpose(Matrix a);
+	static Matrix concat_horizontal(Matrix a, Matrix b);
 private:
 	static Matrix parse_from_string(std::string input);
 	static Matrix swap_row(Matrix a, int first, int second);
