@@ -12,7 +12,9 @@ public:
 	int columns;
 	std::vector<std::vector<double> > data;
 	bool initialize();
+
 	Matrix operator+(const Matrix& b);
+	Matrix operator-(const Matrix& b);
 
 };
 
