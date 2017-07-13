@@ -1,10 +1,10 @@
 #pragma once
 
-#include <vector>
-#include <string>
-
 #ifndef MATRIX_H
 #define MATRIX_H
+
+#include <vector>
+#include <string>
 
 class Matrix {
 public:
@@ -20,6 +20,7 @@ public:
 class MatrixFunctions {
 public:
 	static Matrix parse_from_user();
+	static std::string to_string(Matrix a);
 private:
 	static Matrix parse_from_string(std::string input);
 };

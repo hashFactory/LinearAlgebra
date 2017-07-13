@@ -5,36 +5,57 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
+#include <string>
 #include "Matrix.h"
+#include "Helper.h"
 
 using namespace std;
+
+string MatrixFunctions::to_string(Matrix a)
+{
+	string result;
+	for (int i = 0; i < a.rows; i++)
+	{
+		for (int j = 0; j < a.columns; j++)
+		{
+			result += std::to_string(a.data[i][j]);
+			result += '\t';
+		}
+		result += '\n';
+	}
+
+	return result;
+}
 
 Matrix MatrixFunctions::parse_from_string(string input)
 {
 	// First run through to catch size
 	input.erase(std::remove_if(input.begin(), input.end(), [](char x) {return isspace(x); }), input.end());
-	vector<string> comma_split;
 
-	stringstream ss(input);
+	matrix_size size = get_matrix_size_from_string(input);
+
+	Matrix m(size.rows, size.columns);
+	m.initialize();
+
+	stringstream s(input);
 
 	double d;
-	int columns = 0;
-	int rows = 1;
-	while (ss >> d)
+	int r = 0, c = 0;
+
+	while (s >> d)
 	{
-		columns++;
-		if (ss.peek() == ';')
-			rows++;
-		if (ss.peek() == ',')
-			ss.ignore();
+		m.data[r][c] = d;
+		c++;
+		if (s.peek() == ';')
+		{
+			r++;
+			c = 0;
+			s.ignore();
+		}
+		if (s.peek() == ',')
+			s.ignore();
 	}
 
-	cout << "Rows: " << rows << "\tColumns: " << columns << "\n";
-	cout << "Fixed string: " << input;
-
-	// Second run through to collect values
-	// TODO: Temporary
-	Matrix m(2, 2);
 	return m;
 }
 
@@ -53,7 +74,7 @@ Matrix Matrix::operator+(const Matrix &b)
 	m.initialize();
 
 	if (b.rows != rows || b.columns != columns)
-		throw "Dimension mismatch!";
+		throw "Dimension mismatch for addition!";
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -69,7 +90,7 @@ Matrix Matrix::operator+(const Matrix &b)
 bool Matrix::initialize()
 {
 	data.resize(rows);
-	for (int i = 0; i < columns; i++)
+	for (int i = 0; i < rows; i++)
 	{
 		data[i].resize(columns);
 	}
@@ -79,8 +100,8 @@ bool Matrix::initialize()
 int main()
 {
 	Matrix m(3, 4);
-	cout << sizeof(m) << "\n";
 	Matrix y = MatrixFunctions::parse_from_user();
+	cout << MatrixFunctions::to_string(y);
 	system("pause");
     return 0;
 }
