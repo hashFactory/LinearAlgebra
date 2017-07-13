@@ -77,6 +77,7 @@ Matrix MatrixFunctions::parse_from_file(string directory)
 
 Matrix MatrixFunctions::ref(Matrix a)
 {
+	// TODO: optimize by grouping 0 rows to bottom of matrix
 	// Find pivot column
 	int i = 0, j = 0;
 	if (a.data[0][0] == 0)
@@ -106,6 +107,11 @@ Matrix MatrixFunctions::ref(Matrix a)
 
 	// Divide row by itself
 	a = MatrixFunctions::divide_row(a, j, a.data[i][j]);
+
+	for (int row = i; row < a.rows; row++)
+	{
+		
+	}
 
 	cout << MatrixFunctions::to_string(a);
 
