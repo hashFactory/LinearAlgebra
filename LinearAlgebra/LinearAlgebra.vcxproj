@@ -140,6 +140,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="stdafx.h" />

@@ -8,6 +8,7 @@
 #include <string>
 #include "Matrix.h"
 #include "Helper.h"
+#include "Exceptions.h"
 
 using namespace std;
 
@@ -74,7 +75,17 @@ Matrix Matrix::operator+(const Matrix &b)
 	m.initialize();
 
 	if (b.rows != rows || b.columns != columns)
-		throw "Dimension mismatch for addition!";
+	{
+		DimensionMismatch _ex_DM;
+		try
+		{
+			throw _ex_DM;
+		}
+		catch (exception& e)
+		{
+			cout << e.what() << "\n";
+		}
+	}
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -102,6 +113,10 @@ int main()
 	Matrix m(3, 4);
 	Matrix y = MatrixFunctions::parse_from_user();
 	cout << MatrixFunctions::to_string(y);
+	Matrix x = MatrixFunctions::parse_from_user();
+	cout << MatrixFunctions::to_string(x);
+	cout << "First matrix + second matrix: \n";
+	cout << MatrixFunctions::to_string(x + y);
 	system("pause");
     return 0;
 }
