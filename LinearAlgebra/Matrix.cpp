@@ -7,6 +7,7 @@
 
 Matrix Matrix::operator+(const Matrix &b)
 {
+	// Defines the addition operator
 	Matrix m(rows, columns);
 	m.initialize();
 
@@ -24,18 +25,15 @@ Matrix Matrix::operator+(const Matrix &b)
 	}
 
 	for (int i = 0; i < rows; i++)
-	{
 		for (int j = 0; j < columns; j++)
-		{
 			m.data[i][j] = b.data[i][j] + data[i][j];
-		}
-	}
 
 	return m;
 }
 
 Matrix Matrix::operator-(const Matrix &b)
 {
+	// Defines the subtraction operator
 	Matrix m(rows, columns);
 	m.initialize();
 
@@ -53,18 +51,15 @@ Matrix Matrix::operator-(const Matrix &b)
 	}
 
 	for (int i = 0; i < rows; i++)
-	{
 		for (int j = 0; j < columns; j++)
-		{
 			m.data[i][j] = data[i][j] - b.data[i][j];
-		}
-	}
 
 	return m;
 }
 
 Matrix Matrix::operator*(const Matrix &b)
 {
+	// Defines the multiplication operator
 	Matrix m(rows, b.columns);
 	m.initialize();
 
@@ -97,11 +92,13 @@ Matrix Matrix::operator*(const Matrix &b)
 
 ostream& operator<<(ostream& out, const Matrix& b)
 {
+	// Defines the bitshift (or output) operator
 	return out << MatrixFunctions::to_string(b);
 }
 
 bool Matrix::initialize()
 {
+	// Initializes the data vectors in the matrix
 	data.resize(rows);
 	for (int i = 0; i < rows; i++)
 	{

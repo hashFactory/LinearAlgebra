@@ -12,6 +12,7 @@ bool output = false;
 
 std::string MatrixFunctions::to_string(Matrix a)
 {
+	// Converts the matrix to a string
 	string result;
 	for (int i = 0; i < a.rows; i++)
 	{
@@ -28,6 +29,7 @@ std::string MatrixFunctions::to_string(Matrix a)
 
 Matrix MatrixFunctions::parse_from_string(string input)
 {
+	// Takes string and spawns a matrix from it
 	input.erase(std::remove_if(input.begin(), input.end(), [](char x) {return isspace(x); }), input.end());
 
 	matrix_size size = get_matrix_size_from_string(input);
@@ -59,6 +61,7 @@ Matrix MatrixFunctions::parse_from_string(string input)
 
 Matrix MatrixFunctions::parse_from_user()
 {
+	// Retrieves string from user to parse
 	cout << "Enter matrix values separated by commas and by semicolons:\n";
 	std::string input_buffer;
 	getline(cin, input_buffer);
@@ -68,6 +71,7 @@ Matrix MatrixFunctions::parse_from_user()
 
 Matrix MatrixFunctions::parse_from_file(string directory)
 {
+	// Retrieves string from file to parse
 	ifstream file(directory);
 	cout << "Reading from: " << directory << "\n";
 	stringstream input_buffer;
@@ -79,6 +83,7 @@ Matrix MatrixFunctions::parse_from_file(string directory)
 
 Matrix MatrixFunctions::rref(Matrix a)
 {
+	// Reduced row echelon form
 	for (int i = 0, j = 0; i < a.rows; i++)
 	{
 		// Check if column is done
@@ -118,6 +123,7 @@ Matrix MatrixFunctions::rref(Matrix a)
 
 Matrix MatrixFunctions::rref_with_steps(Matrix a)
 {
+	// Outputs the steps of reduced row echelon
 	output = true;
 	a = rref(a);
 	output = false;
@@ -126,6 +132,7 @@ Matrix MatrixFunctions::rref_with_steps(Matrix a)
 
 Matrix MatrixFunctions::transpose(Matrix a)
 {
+	// Transposes the matrix
 	Matrix result(a.columns, a.rows);
 	result.initialize();
 
@@ -138,6 +145,7 @@ Matrix MatrixFunctions::transpose(Matrix a)
 
 Matrix MatrixFunctions::swap_row(Matrix a, int first, int second)
 {
+	// Dwaps any 2 rows in the matrix
 	if (output)
 		cout << "Swapped row " << first + 1 << " with row " << second + 1 << ".\n";
 	swap(a.data[first], a.data[second]);
@@ -149,6 +157,7 @@ Matrix MatrixFunctions::swap_row(Matrix a, int first, int second)
 
 Matrix MatrixFunctions::divide_row(Matrix a, int row, double denominator)
 {
+	// Divides a row of the matrix
 	if (output)
 		cout << "Divided row " << row + 1 << " by " << denominator << ".\n";
 	for (int i = 0; i < a.columns; i++)
@@ -161,6 +170,7 @@ Matrix MatrixFunctions::divide_row(Matrix a, int row, double denominator)
 
 Matrix MatrixFunctions::add_multiple_of_row(Matrix a, int dest_row, int source_row, double multiple)
 {
+	// Adds multiple of another row to a destination row
 	if (output)
 		cout << "Added row " << source_row + 1 << " * " << multiple << " to row " << dest_row + 1 << ".\n";
 	for (int i = 0; i < a.columns; i++)

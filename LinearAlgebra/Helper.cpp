@@ -4,6 +4,7 @@
 
 matrix_size get_matrix_size_from_string(std::string input)
 {
+	// Returns the dimensions of a matrix input string
 	string item;
 	int rows = 0, cols = 0, final_cols = 0;
 	stringstream thing(input);
@@ -12,13 +13,9 @@ matrix_size get_matrix_size_from_string(std::string input)
 		istringstream in(line);
 		cols = 0;
 		while (getline(in, item, ','))
-		{
 			cols++;
-		}
 		if (rows == 0)
-		{
 			final_cols = cols;
-		}
 		else if (cols != final_cols)
 		{
 			MatrixFormatException _ex_MFE;
@@ -33,8 +30,6 @@ matrix_size get_matrix_size_from_string(std::string input)
 		}
 		rows++;
 	}
-
-	std::cout << rows << "," << cols << "\n";
 
 	matrix_size instance_size;
 	instance_size.rows = rows;
