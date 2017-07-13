@@ -79,16 +79,15 @@ Matrix MatrixFunctions::parse_from_file(string directory)
 
 Matrix MatrixFunctions::rref(Matrix a)
 {
-	int j = 0;
-	for (int i = 0; i < a.rows; i++)
+	for (int i = 0, j = 0; i < a.rows; i++)
 	{
-		// Check for all zero elements
+		// Check if column is done
 		int num_of_ones = 0, num_of_zeroes = 0;
 		for (int temp_row = 0; temp_row < a.rows; temp_row++)
 		{
 			if (a.data[temp_row][j] == 0)
 				num_of_zeroes++;
-			else if (a.data[temp_row][j] == 1)
+			else if (a.data[j][j] == 1)
 				num_of_ones++;
 		}
 		if (num_of_ones == 1 && num_of_zeroes == a.rows - 1)
@@ -99,9 +98,10 @@ Matrix MatrixFunctions::rref(Matrix a)
 		// Create next pivot column
 		int search_row = i;
 		if (i + 1 < a.rows)
-			int search_row = i + 1;
-		while (a.data[search_row][j] == 0 && search_row < a.rows)
-			search_row++;
+			search_row = i + 1;
+		else
+			while (a.data[search_row][j] == 0 && search_row < a.rows)
+				search_row++;
 		a = MatrixFunctions::swap_row(a, i, search_row);
 
 		// Divide row by pivot value
@@ -130,12 +130,8 @@ Matrix MatrixFunctions::transpose(Matrix a)
 	result.initialize();
 
 	for (int i = 0; i < a.rows; i++)
-	{
 		for (int j = 0; j < a.columns; j++)
-		{
 			result.data[j][i] = a.data[i][j];
-		}
-	}
 
 	return result;
 }
@@ -143,16 +139,10 @@ Matrix MatrixFunctions::transpose(Matrix a)
 Matrix MatrixFunctions::swap_row(Matrix a, int first, int second)
 {
 	if (output)
-		cout << "Swapped row " << first + 1 << " with row " << second << ".\n";
-	vector<double> buffer(a.columns);
-	for (int i = 0; i < a.columns; i++)
-	{
-		buffer[i] = a.data[second][i];
-		a.data[second][i] = a.data[first][i];
-		a.data[first][i] = buffer[i];
-	}
+		cout << "Swapped row " << first + 1 << " with row " << second + 1 << ".\n";
+	swap(a.data[first], a.data[second]);
 	if (output)
-		cout << MatrixFunctions::to_string(a);
+		cout << a;
 
 	return a;
 }
@@ -164,7 +154,7 @@ Matrix MatrixFunctions::divide_row(Matrix a, int row, double denominator)
 	for (int i = 0; i < a.columns; i++)
 		a.data[row][i] /= denominator;
 	if (output)
-		cout << MatrixFunctions::to_string(a);
+		cout << a;
 
 	return a;
 }
@@ -176,7 +166,7 @@ Matrix MatrixFunctions::add_multiple_of_row(Matrix a, int dest_row, int source_r
 	for (int i = 0; i < a.columns; i++)
 		a.data[dest_row][i] += a.data[source_row][i] * multiple;
 	if (output)
-		cout << MatrixFunctions::to_string(a);
+		cout << a;
 
 	return a;
 }
