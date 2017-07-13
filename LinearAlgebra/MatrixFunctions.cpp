@@ -8,6 +8,8 @@
 
 using namespace std;
 
+bool output = false;
+
 std::string MatrixFunctions::to_string(Matrix a)
 {
 	string result;
@@ -75,51 +77,73 @@ Matrix MatrixFunctions::parse_from_file(string directory)
 	return m;
 }
 
-Matrix MatrixFunctions::ref(Matrix a)
+Matrix MatrixFunctions::rref(Matrix a)
 {
-	// TODO: optimize by grouping 0 rows to bottom of matrix
-	// Find pivot column
-	int i = 0, j = 0;
-	if (a.data[0][0] == 0)
+	int j = 0;
+	for (int i = 0; i < a.rows; i++)
 	{
-		i++;
-		int j = 0;
-		while (a.data[i][j] == 0 && !(j == a.columns - 1 && i == a.rows - 1))
+		// Check for all zero elements
+		int num_of_ones = 0, num_of_zeroes = 0;
+		for (int temp_row = 0; temp_row < a.rows; temp_row++)
 		{
-			if (i == a.rows - 1)
-			{
-				i = 0;
-				j++;
-			}
-			i++;
+			if (a.data[temp_row][j] == 0)
+				num_of_zeroes++;
+			else if (a.data[temp_row][j] == 1)
+				num_of_ones++;
 		}
-		if (a.data[i][j] == 0)
-		{
-			// TODO
-			cout << "THROW IRREDUCIBLE";
-		}
-		else
-		{
-			a = MatrixFunctions::swap_row(a, 0, i);
-			i = 0;
-		}
+		if (num_of_ones == 1 && num_of_zeroes == a.rows - 1)
+			j++;
+		if (j == a.columns)
+			return a;
+
+		// Create next pivot column
+		int search_row = i;
+		if (i + 1 < a.rows)
+			int search_row = i + 1;
+		while (a.data[search_row][j] == 0 && search_row < a.rows)
+			search_row++;
+		a = MatrixFunctions::swap_row(a, i, search_row);
+
+		// Divide row by pivot value
+		a = MatrixFunctions::divide_row(a, i, a.data[i][j]);
+
+		// Add selected row to others to null out
+		for (int k = 0; k < a.rows; k++)
+			if (k != i && a.data[k][j] != 0)
+				a = MatrixFunctions::add_multiple_of_row(a, k, i, -1.0 * a.data[k][j]);
 	}
-
-	// Divide row by itself
-	a = MatrixFunctions::divide_row(a, j, a.data[i][j]);
-
-	for (int row = i; row < a.rows; row++)
-	{
-		
-	}
-
-	cout << MatrixFunctions::to_string(a);
 
 	return a;
 }
 
+Matrix MatrixFunctions::rref_with_steps(Matrix a)
+{
+	output = true;
+	a = rref(a);
+	output = false;
+	return a;
+}
+
+Matrix MatrixFunctions::transpose(Matrix a)
+{
+	Matrix result(a.columns, a.rows);
+	result.initialize();
+
+	for (int i = 0; i < a.rows; i++)
+	{
+		for (int j = 0; j < a.columns; j++)
+		{
+			result.data[j][i] = a.data[i][j];
+		}
+	}
+
+	return result;
+}
+
 Matrix MatrixFunctions::swap_row(Matrix a, int first, int second)
 {
+	if (output)
+		cout << "Swapped row " << first + 1 << " with row " << second << ".\n";
 	vector<double> buffer(a.columns);
 	for (int i = 0; i < a.columns; i++)
 	{
@@ -127,26 +151,32 @@ Matrix MatrixFunctions::swap_row(Matrix a, int first, int second)
 		a.data[second][i] = a.data[first][i];
 		a.data[first][i] = buffer[i];
 	}
+	if (output)
+		cout << MatrixFunctions::to_string(a);
 
 	return a;
 }
 
 Matrix MatrixFunctions::divide_row(Matrix a, int row, double denominator)
 {
+	if (output)
+		cout << "Divided row " << row + 1 << " by " << denominator << ".\n";
 	for (int i = 0; i < a.columns; i++)
-	{
 		a.data[row][i] /= denominator;
-	}
+	if (output)
+		cout << MatrixFunctions::to_string(a);
 
 	return a;
 }
 
 Matrix MatrixFunctions::add_multiple_of_row(Matrix a, int dest_row, int source_row, double multiple)
 {
+	if (output)
+		cout << "Added row " << source_row + 1 << " * " << multiple << " to row " << dest_row + 1 << ".\n";
 	for (int i = 0; i < a.columns; i++)
-	{
 		a.data[dest_row][i] += a.data[source_row][i] * multiple;
-	}
+	if (output)
+		cout << MatrixFunctions::to_string(a);
 
 	return a;
 }
