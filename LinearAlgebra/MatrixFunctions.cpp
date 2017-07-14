@@ -143,6 +143,22 @@ Matrix MatrixFunctions::transpose(Matrix a)
 	return result;
 }
 
+Matrix MatrixFunctions::invert(Matrix a)
+{
+	return MatrixFunctions::extract_sub_matrix(MatrixFunctions::rref(MatrixFunctions::concat_horizontal(a, MatrixFunctions::create_identity(a.columns))), 1, a.rows, a.columns + 1, a.columns * 2);
+}
+
+Matrix MatrixFunctions::extract_sub_matrix(Matrix a, int row_begin, int row_end, int col_begin, int col_end)
+{
+	Matrix result(row_end - row_begin + 1, col_end - col_begin + 1);
+	result.initialize();
+
+	for (int i = row_begin - 1; i < row_end; i++)
+		copy(a.data[i].begin() + col_begin - 1, a.data[i].begin() + col_end, result.data[i].begin());
+
+	return result;
+}
+
 Matrix MatrixFunctions::create_identity(int size)
 {
 	// Creates an identity matrix of size x size

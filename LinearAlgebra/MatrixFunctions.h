@@ -17,6 +17,8 @@ public:
 	static Matrix concat_horizontal(Matrix a, Matrix b);
 	static Matrix concat_vertical(Matrix a, Matrix b);
 	static Matrix create_identity(int size);
+	static Matrix extract_sub_matrix(Matrix a, int row_begin, int row_end, int col_begin, int col_end);
+	static Matrix invert(Matrix a);
 private:
 	static Matrix parse_from_string(std::string input);
 	static Matrix swap_row(Matrix a, int first, int second);

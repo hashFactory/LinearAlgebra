@@ -38,5 +38,13 @@ class IrreducibleMatrix : public exception
 	}
 };
 
+class NotSquare : public exception
+{
+	virtual const char* what() const throw()
+	{
+		return "ERROR: Trying to reduce non-square matrix!";
+	}
+};
+
 
 #endif 
