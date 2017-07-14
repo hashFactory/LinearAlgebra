@@ -145,11 +145,13 @@ Matrix MatrixFunctions::transpose(Matrix a)
 
 Matrix MatrixFunctions::invert(Matrix a)
 {
+	// Inverses matrix and returns it
 	return MatrixFunctions::extract_sub_matrix(MatrixFunctions::rref(MatrixFunctions::concat_horizontal(a, MatrixFunctions::create_identity(a.columns))), 1, a.rows, a.columns + 1, a.columns * 2);
 }
 
 Matrix MatrixFunctions::extract_sub_matrix(Matrix a, int row_begin, int row_end, int col_begin, int col_end)
 {
+	// Extracts a partition of a matrix
 	Matrix result(row_end - row_begin + 1, col_end - col_begin + 1);
 	result.initialize();
 

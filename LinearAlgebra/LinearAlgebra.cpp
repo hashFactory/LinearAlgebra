@@ -1,6 +1,9 @@
 // LinearAlgebra.cpp : Defines the entry point for the console application.
 //
 
+// Implemented functions: +, -, *, parse_from_user, parse_from_file, to_string, rref, transpose, concat_horizontal, concat_vertical, create_identity, ...
+//								invert, parse_from_string, swap_row, divide_row, add_multiple_of_row
+
 #include "stdafx.h"
 #include "Matrix.h"
 #include "MatrixFunctions.h"
