@@ -23,9 +23,12 @@ int main()
 	cout << MatrixFunctions::to_string(z);
 	Matrix y = MatrixFunctions::parse_from_file("C:/Users/tristan/Documents/Visual Studio 2017/Projects/LinearAlgebra/testing2.txt");
 	cout << MatrixFunctions::to_string(y);
+	Matrix i = MatrixFunctions::create_identity(y.columns);
+	cout << i;
 	//cout << "First matrix - second matrix: \n";
 	//cout << MatrixFunctions::to_string(y - z);
 	cout << MatrixFunctions::concat_horizontal(z, y);
+	cout << MatrixFunctions::concat_vertical(z, y);
 	//MatrixFunctions::rref_with_steps(z);
 
 	system("pause");

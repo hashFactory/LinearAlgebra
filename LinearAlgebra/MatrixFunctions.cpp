@@ -143,8 +143,21 @@ Matrix MatrixFunctions::transpose(Matrix a)
 	return result;
 }
 
+Matrix MatrixFunctions::create_identity(int size)
+{
+	// Creates an identity matrix of size x size
+	Matrix m(size, size);
+	m.initialize();
+
+	for (int i = 0; i < size; i++)
+		m.data[i][i] = 1;
+
+	return m;
+}
+
 Matrix MatrixFunctions::concat_horizontal(Matrix a, Matrix b)
 {
+	// Concatenates two matrices horizontally
 	if (a.rows != b.rows)
 	{
 		DimensionMismatch _ex_DM;
@@ -166,6 +179,33 @@ Matrix MatrixFunctions::concat_horizontal(Matrix a, Matrix b)
 		copy(a.data[i].begin(), a.data[i].end(), result.data[i].begin());
 		copy_backward(b.data[i].begin(), b.data[i].end(), result.data[i].end());
 	}
+
+	return result;
+}
+
+Matrix MatrixFunctions::concat_vertical(Matrix a, Matrix b)
+{
+	// Concatenates two matrices vertically
+	if (a.columns != b.columns)
+	{
+		DimensionMismatch _ex_DM;
+		try
+		{
+			throw _ex_DM;
+		}
+		catch (exception& e)
+		{
+			cout << e.what() << "\n";
+		}
+	}
+
+	Matrix result(a.rows + b.rows, a.columns);
+	result.initialize();
+	
+	for (int i = 0; i < a.rows; i++)
+		copy(a.data[i].begin(), a.data[i].end(), result.data[i].begin());
+	for (int i = 0; i < b.rows; i++)
+		copy(b.data[i].begin(), b.data[i].end(), result.data[i+a.rows].begin());
 
 	return result;
 }
